@@ -18,8 +18,34 @@ DATABASE_NAME=
  ```
  
  Run npm start -s to start this project.
+ ## How to Configure SAML Login:
+ Change the var sp_options in app.js with the url of your server.<br>
+ Example: 
+ ```
+ var sp_options = {
+    entity_id: "https://< your url here >:443/metadata.xml",
+    private_key: fs.readFileSync("cert/key.pem").toString(),
+    certificate: fs.readFileSync("cert/cert.pem").toString(),
+    assert_endpoint: "https://< your url here >/assert"
+};
+ ```
  
- ## How to Use:
+ After this, change de JSON idp_options in app.js with your url.
+ ```
+ var idp_options = {
+    sso_login_url: " https://w3id.alpha.sso.ibm.com/auth/sps/samlidp/saml20/logininitial?RequestBinding=HTTPPost&PartnerId=< your url here >:443/metadata.xml&NameIdFormat=email&Target=< your url here > ",
+
+
+    certificates: fs.readFileSync("cert/w3id.sso.ibm.com").toString()
+};
+
+ ```
+Do a GET request to /metadata.xml to get your SAML Configuration to upload it on your SAML creation. 
+
+ ### How To Login with IBM W3 SAML
+ Send an GET request to /login. This will automatically redirects you to W3ID Login.
+ 
+ ## How to Use Requests:
  ### User DAO
  #### Create a new User
  REST API to create a new user on the database:
@@ -137,5 +163,6 @@ DATABASE_NAME=
  
  ```
  GET http://yoururl:3000/api/assets/getAllAssets
+ 
  ```
  
