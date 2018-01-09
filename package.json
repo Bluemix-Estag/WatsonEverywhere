@@ -19,6 +19,7 @@
     "express-session": "^1.15.3",
     "method-override": "2.3.x",
     "morgan": "1.8.x",
+    "pkgcloud": "^1.5.0",
     "request": "^2.81.0",
     "routes": "^2.1.0",
     "saml2-js": "^1.4.3",

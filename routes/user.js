@@ -1,8 +1,17 @@
+var express = require('express');
+var userRouter = express.Router();
+var userController = require('../controller/os.controller');
 
-/*
- * GET users listing.
- */
+var router = () => {
+    osRouter.route('/bla')
+    .post(find)
 
-exports.list = function(req, res){
-  res.send("respond with a resource");
-};
+    
+
+    return osRouter;
+}
+
+
+var find = (req,res) => {
+   
+}

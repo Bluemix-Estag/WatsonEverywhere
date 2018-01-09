@@ -10,6 +10,7 @@ var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 var fs = require('fs');
+var ObjectStorage = require('ibmcloud-objectstorage');
 
 var saml2 = require('saml2-js');
 var Saml2js = require('saml2js');
@@ -115,71 +116,6 @@ app.post("/assert", function (req, res) {
 });
 
 // API CALLS TO USER DAO
-
-// Check User Permission By Email
-app.post('/api/users/checkUserPermission', (req,res) => {
-    let body = req.body;
-
-    userDAO.getPermissionByEmail(body.email, (err,result) => {
-        if(!err){
-            res.status(200).send(result);
-        } else {
-            res.status(404).send(err);
-        }
-    })
-})
-
-app.post('/api/user/insert', function(req,res){
-    let body = req.body;
-    userDAO.insertUser(body, (err,result) => {
-        if(!err){
-            res.status(200).send('Successfully Inserted this User into Database');
-        } else {
-            res.status(400).send(err);
-        }
-    })
-})
-
-app.get('/api/user/getAllUsers', function(req,res){
-    userDAO.getAllUsers((err,result) => {
-        if(!err){
-            res.status(200).send(result);
-        } else {
-            res.status(400).send(err);
-        }
-    })
-})
-
-app.post('/api/user/remove', function(req,res){
-    if(body._id === undefined) {
-        res.status(400).send("User ID not found. Confirm your request and try again");
-    } else {
-        let body = req.body;
-        userDAO.removeUser(body._id, (err, result) => {
-            if(!err){
-                res.status(200).send('Successfully Deleted This User From Database')
-            } else {
-                res.status(400).send(err);
-            }
-        })
-    }
-})
-
-app.post('/api/user/update', function(req,res){
-    if(body._id === undefined) {
-        res.status(400).send("User ID not found. Confirm your request and try again");
-    } else {
-        let body = req.body;
-        
-        userDAO.updateUser(body._id, body, (err,result) => {
-            if(!err){
-                res.status(200).send(result);
-            } else {
-                res.status(400).send(err);
-            }
-        })
-    }
-})
     
 // API CALLS TO ASSETS DAO
 app.post('/api/assets/insert', function(req,res){
@@ -249,6 +185,13 @@ app.get('/assert', function (req, res) {
 app.get('/', function (req, res) {
     res.render('index.html');
 })
+
+
+var osRouter = require('./routes/objectstorage')();
+
+// Jeito certo
+app.use('/watsoneverywhere/api/v1/', osRouter);
+
 
 
 http.createServer(app).listen(app.get('port'), '0.0.0.0', function () {
