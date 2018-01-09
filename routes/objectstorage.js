@@ -6,8 +6,6 @@ var multipartMiddleware = multiPart();
 var fs = require('fs');
 
 var router = () => {
-    osRouter.route('/bla')
-    .get(find)
 
     osRouter.route('/objectStorage/findByName')
     .post(findByName)

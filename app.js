@@ -30,8 +30,6 @@ var multipart = require('connect-multiparty')
 var multipartMiddleware = multipart();
 var session = require('express-session')
 var request = require('request');
-let userDAO = require('./buildSrc/DAO/userDAO');
-let assetDAO = require('./buildSrc/DAO/assetsDAO');
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -114,67 +112,7 @@ app.post("/assert", function (req, res) {
 //    res.send(parser.toObject());
 
 });
-
-// API CALLS TO USER DAO
-    
-// API CALLS TO ASSETS DAO
-app.post('/api/assets/insert', function(req,res){
-    let body = req.body;
-    assetDAO.insertAsset(body, (err,result) => {
-        if(!err){
-            res.status(200).send('Successfully Inserted this Asset into Database');
-        } else {
-            res.status(400).send(err);
-        }
-    })
-})
-
-app.post('/api/assets/remove', function(req,res){
-    let body = req.body;
-    if(body._id === undefined) {
-        res.status(400).send("Asset ID not found. Confirm your request and try again");
-    } else {
-        assetDAO.removeAsset(body._id, (err,result) => {
-            if(!err){
-             res.status(200).send('Successfully Deleted This Asset From Database');
-            } else {
-             res.status(400).send(err);
-            }
-        })
-    }
-})
-
-app.post('/api/assets/update', function(req,res){
-    let body = req.body;
-    if(body._id === undefined) {
-        res.status(400).send("Asset ID not found. Confirm your request and try again");
-    } else {
-        let assetID = body._id;        
-        delete body._id;
-        
-        assetDAO.updateAsset(assetID, body, (err,result) => {
-            if(!err){
-                res.status(200).send(result);
-            } else {
-                res.status(400).send(err);
-            }
-        })
-    }
-})
-
-app.get('/api/assets/getAllAssets', function(req,res){
-
-    assetDAO.getAllAssets((err,result) => {
-        if(!err) {
-            res.status(200).send(result);
-        } else {
-            res.status(400).send(err);
-        }
-    })
-
-})
-
-// End of Assets DAO
+  
 
 
 app.get('/assert', function (req, res) {
@@ -188,11 +126,12 @@ app.get('/', function (req, res) {
 
 
 var osRouter = require('./routes/objectstorage')();
-
+var userRouter = require('./routes/user')();
+var assetsRouter = require('./routes/assets')();
 // Jeito certo
 app.use('/watsoneverywhere/api/v1/', osRouter);
-
-
+app.use('/watsoneverywhere/api/v1/users/', userRouter);
+app.use('/watsoneverywhere/api/v1/assets/', assetsRouter);
 
 http.createServer(app).listen(app.get('port'), '0.0.0.0', function () {
     console.log('Express server listening on port ' + app.get('port'));
