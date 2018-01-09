@@ -54,7 +54,7 @@ Do a GET request to /metadata.xml to get your SAML Configuration to upload it on
  
  Example:
  ```
- POST http://yoururl:3000/api/user/insert 
+ POST http://yoururl:3000/watsoneverywhere/api/v1/users/insert 
  Body: {
 	"_id": "newuser",
 	"email": "newuser@email.com"
@@ -66,7 +66,7 @@ Do a GET request to /metadata.xml to get your SAML Configuration to upload it on
  Example: <br>
  
  ```
- POST http://yoururl:3000/api/user/remove
+ POST http://yoururl:3000/watsoneverywhere/api/v1/users/remove
  Body: {
   "_id": "newuser"
  }
@@ -78,7 +78,7 @@ Do a GET request to /metadata.xml to get your SAML Configuration to upload it on
  Example: <br>
  
  ```
- POST http://yoururl:3000/api/user/update
+ POST http://yoururl:3000/watsoneverywhere/api/v1/users/update
  Body: {
   "_id": "newuser",
   "email": "newemail@gmail.com",
@@ -92,7 +92,7 @@ Do a GET request to /metadata.xml to get your SAML Configuration to upload it on
  
  Example: <br>
  ```
- GET http://yoururl:3000/api/user/getAllUsers
+ GET http://yoururl:3000/watsoneverywhere/api/v1/users/getAllUsers
  ```
  
  
@@ -102,7 +102,7 @@ Do a GET request to /metadata.xml to get your SAML Configuration to upload it on
  
  Example: <br>
  ```
- POST http://yoururl:3000/api/user/checkUserPermission
+ POST http://yoururl:3000/watsoneverywhere/api/v1/users/checkUserPermission
  Body: {
   email: "newemail@gmail.com"
  }
@@ -117,7 +117,7 @@ Do a GET request to /metadata.xml to get your SAML Configuration to upload it on
  
  Example:
   ```
- POST http://yoururl:3000/api/assets/insert 
+ POST http://yoururl:3000/watsoneverywhere/api/v1/assets/insert 
  Body: {
 	"_id": "newAsset",
 	"description": "This is a new asset",
@@ -132,7 +132,7 @@ Do a GET request to /metadata.xml to get your SAML Configuration to upload it on
  Example: <br>
  
  ```
- POST http://yoururl:3000/api/assets/remove
+ POST http://yoururl:3000/watsoneverywhere/api/v1/assets/remove
  Body: {
   "_id": "newAsset"
  }
@@ -144,7 +144,7 @@ Do a GET request to /metadata.xml to get your SAML Configuration to upload it on
  Example: <br>
  
  ```
- POST http://yoururl:3000/api/user/update
+ POST http://yoururl:3000/watsoneverywhere/api/v1/assets/update
  Body: {
   "_id": "newAsset",
   "description": "This is a new asset",
@@ -162,7 +162,44 @@ Do a GET request to /metadata.xml to get your SAML Configuration to upload it on
  Example: <br>
  
  ```
- GET http://yoururl:3000/api/assets/getAllAssets
+ GET http://yoururl:3000/watsoneverywhere/api/v1/assets/getAllAssets
  
  ```
  
+ ## Using Object Storage
+ #### Inserting an Image
+ REST API to insert an image on Object Storage: <br>
+ Send a POST request to your server url. <br>
+ Example: <br>
+ ```
+ POST http://yoururl:3000/watsoneverywhere/api/v1/objectStorage/insert
+ Send the image on the post body.
+ ```
+ #### Getting all images names
+ REST API to get all the images names from the Object Storage: <br>
+ Example: <br>
+ 
+ ```
+ GET http://yoururl:3000/watsoneverywhere/api/v1/objectStorage/find
+ ```
+ #### Getting image info
+ REST API to get the image info from the Object Storage sending the name as parameter. <br>
+ Example: <br>
+ 
+ ```
+ POST http://yoururl:3000/watsoneverywhere/api/v1/objectStorage/findByName
+ Body: {
+	"name": "Imagem10.png"
+ }
+ ```
+
+#### Getting the image
+REST API to get the image from the Object Storagem sending the name as parameter. <br>
+Example: <br>
+
+```
+POST http://yoururl:3000/watsoneverywhere/api/v1/objectStorage/getImage
+Body: {
+	"originalFilename": "Imagem10.png"
+}
+```
