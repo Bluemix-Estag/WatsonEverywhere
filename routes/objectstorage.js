@@ -7,8 +7,11 @@ var fs = require('fs');
 
 var router = () => {
 
+    osRouter.route('/objectStorage/find')
+    .get(find);
+
     osRouter.route('/objectStorage/findByName')
-    .post(findByName)
+    .post(findByName);
 
     osRouter.use(multipartMiddleware)
     .route('/objectStorage/insert')    
