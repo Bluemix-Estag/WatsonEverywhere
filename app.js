@@ -30,9 +30,9 @@ var multipart = require('connect-multiparty')
 var multipartMiddleware = multipart();
 var session = require('express-session')
 var request = require('request');
-
+var CryptoJS = require("crypto-js");
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3001);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
@@ -103,17 +103,11 @@ app.post("/assert", function (req, res) {
     //return res.json(parser.toObject());
     sess.users = parser.toObject();
     console.log("Session" + sess);
-    // res.redirect('https://trello.com/c/tcNdusfL/44-watsoneverywhere-vitrine-dos-bps-crud-com-controle-de-acesso');
-//    res.render('home.html', {
-    //    user: parser.toObject(),
-    //    projects: null
-//    });
     
-//    res.send(parser.toObject());
+    var cryptedUser = CryptoJS.AES.encrypt(JSON.stringify(sess.users), 'chavequeseráutilizada');
 
+    res.redirect('http://urlquevaiserusada/?param='+cryptedUser);
 });
-  
-
 
 app.get('/assert', function (req, res) {
     res.render('index.html');

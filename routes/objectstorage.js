@@ -51,6 +51,7 @@ var removeByName = (req,res) => {
 var insert = (req,res) => {
     var files = req.files;
     var filename = null;
+    console.log("File Recebido: " + JSON.stringify(files,null,2));
     var file = null;
     for (idex in Object.keys(files)){
         filename = Object.keys(files)[0]
@@ -58,7 +59,7 @@ var insert = (req,res) => {
     }
 
     file = files[filename];
-
+    console.log("File Enviado: " + JSON.stringify(file));
 
     osController.insert(file).then((resp) => {
         console.log(resp)
