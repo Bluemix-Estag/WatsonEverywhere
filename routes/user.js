@@ -69,11 +69,11 @@ var getAllUsers = (req,res) => {
 }
 
 var remove = (req,res) => {
-  if(body._id === undefined) {
+  let body = req.body;
+  if(req.body._id === undefined) {
     res.send("User ID not found. Confirm your request and try again");
   } else {
-    let body = req.body;
-    userDAO.removeUser(body._id, (err, result) => {
+    userDAO.removeUser(req.body._id, (err, result) => {
         if(!err){
             res.send('Successfully Deleted This User From Database')
         } else {
@@ -84,10 +84,10 @@ var remove = (req,res) => {
 }
 
 var update = (req,res) => {
+  let body = req.body;
   if(body._id === undefined) {
     res.send("User ID not found. Confirm your request and try again");
   } else {
-    let body = req.body;
     
     userDAO.updateUser(body._id, body, (err,result) => {
         if(!err){
